@@ -1,24 +1,60 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from 'react';
+import { BrowserRouter, Route, Switch, useHistory } from 'react-router-dom';
+import Header from './components/Home/Header/Header';
+import About from './pages/About/About';
+import Contact from './pages/Contact/Contact';
+import Home from './pages/Home/Home';
+import Login from './pages/Login/Login';
+import Detail from './pages/Detail/Detail';
+import PageNotDefound from './pages/PageNotDefound/PageNotDefound';
+import Profile from './pages/Profile/Profile';
+import ToDoListRFC from './pages/ToDoList/ToDoListRFC';
+import ToDoListRCC from './pages/ToDoList/ToDoListRCC';
+import ToDoListReducer from './pages/ToDoList/ToDoListReducer';
+import BaiTapToDoListSaga from './pages/BaiTapToDoListSaga/BaiTapToDoListSaga';
+import LoadingComponent from './components/GlobalSetting/LoadingComponents/LoadingComponent';
+import DemoHoc from './pages/DemoHoc/DemoHoc';
+import Modal from './HOC/Modal';
+import HomeTemplate from './templates/HomeTemplate/HomeTemplate';
+import UserLoginTemplate from './templates/HomeTemplate/UserLoginTemplate';
+import LoginCyberBug from './pages/CyberBug/LoginCyberBug/LoginCyberBug';
+import { useDispatch } from 'react-redux';
 
 function App() {
+
+  const history = useHistory();
+  const dispatch = useDispatch();
+  // console.log(history);
+  useEffect(() => {
+    dispatch({
+      type: 'ADD_HISTORY',
+      history: history
+    })
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      {/* <Header /> */}
+      <Modal />
+      <LoadingComponent />
+      <Switch>
+
+        <HomeTemplate exact path='/home' Component={Home} />
+        <Route exact path='/contact' component={Contact} />
+        <Route exact path='/about' component={About} />
+        <UserLoginTemplate exact path='/login' Component={LoginCyberBug} />
+        <Route exact path='/profile' Component={Profile} />
+        <Route exact path='/detail/:id' component={Detail} />
+        <HomeTemplate exact path='/' Component={Home} />
+        <Route exact path='/ToDoListRFC' component={ToDoListRFC} />
+        <Route exact path='/ToDoListRCC' component={ToDoListRCC} />
+        <Route exact path='/ToDoListReducer' component={ToDoListReducer} />
+        <Route exact path='/ToDoListSaga' component={BaiTapToDoListSaga} />
+        <Route exact path='/DemoHoc' component={DemoHoc} />
+        <HomeTemplate exact path='*' Component={PageNotDefound} />
+      </Switch>
+
+    </>
   );
 }
 
