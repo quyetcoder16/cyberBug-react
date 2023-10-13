@@ -1,6 +1,8 @@
 import { all } from "redux-saga/effects";
 import * as ToDoListSaga from './ToDoListSaga';
 import * as CyberBug from './CyberBug/CyberBugSaga'
+import * as ProjectCategorySaga from './CyberBug/ProjectCategorySaga';
+import * as ProjectCyberBugSaga from './CyberBug/ProjectCyberBugSaga';
 
 export function* rootSaga() {
     yield all([
@@ -12,5 +14,12 @@ export function* rootSaga() {
         // solve cyberBug
 
         CyberBug.theoDoiSigninSaga(),
+
+        ProjectCategorySaga.theoDoiGetAllProjectCategory(),
+
+        // project cyber bug
+
+        ProjectCyberBugSaga.theoDoiCreateProjectSaga(),
+        ProjectCyberBugSaga.theoDoiGetListProject(),
     ])
 }

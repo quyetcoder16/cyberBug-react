@@ -3,6 +3,7 @@ import { USER_SIGNIN_API, USLOGIN } from '../../types/cyberBugConstant/CyberBugC
 import { CyberBugServices } from '../../../services/CyberBugServices';
 import { TOKEN, USER_LOGIN } from '../../../util/constants/settingSytem';
 import { DISPLAY_LOADING, HIDE_LOADING } from '../../types/ToDoListType';
+import { history } from '../../../util/constants/History';
 
 function* signinSaga(action) {
     yield put({
@@ -21,7 +22,7 @@ function* signinSaga(action) {
             userLogin: data.content
         })
 
-        const history = yield select(state => state.HistoryReducer.history);
+        // const history = yield select(state => state.HistoryReducer.history);
         // console.log(history);
         history.push('/home');
         // console.log(data);

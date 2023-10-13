@@ -16,7 +16,7 @@ function LoginCyberBugs(props) {
         handleChange,
         handleBlur,
         handleSubmit,
-    } = props
+    } = props;
 
     return (
         <form onSubmit={handleSubmit} className="container" style={{ height: window.innerHeight }} >
@@ -55,7 +55,7 @@ const LoginCyberBugsWithFormik = withFormik({
         password: ''
     }),
     validationSchema: Yup.object().shape({
-        email: Yup.string().email('invalid Email').required('Required'),
+        email: Yup.string().email('invalid Email').required('Required'), 
         password: Yup.string().min(6, 'password must have min 6 character!').max(32, 'password must have max 32 character')
     }),
     handleSubmit: (values, { props, setSubmitting }) => {

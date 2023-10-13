@@ -19,6 +19,10 @@ import HomeTemplate from './templates/HomeTemplate/HomeTemplate';
 import UserLoginTemplate from './templates/HomeTemplate/UserLoginTemplate';
 import LoginCyberBug from './pages/CyberBug/LoginCyberBug/LoginCyberBug';
 import { useDispatch } from 'react-redux';
+import CyberBugTemplate from './templates/HomeTemplate/CyberBugTemplate';
+import IndexCyberBug from './pages/CyberBug/IndexCyberBug';
+import CreateProjectCyberBug from './pages/CyberBug/CreateProjectCyberBug/CreateProjectCyberBug';
+import ProjectManagement from './pages/CyberBug/ProjectManagement/ProjectManagement';
 
 function App() {
 
@@ -51,6 +55,9 @@ function App() {
         <Route exact path='/ToDoListReducer' component={ToDoListReducer} />
         <Route exact path='/ToDoListSaga' component={BaiTapToDoListSaga} />
         <Route exact path='/DemoHoc' component={DemoHoc} />
+        <CyberBugTemplate exact path='/cyberBug' Component={IndexCyberBug} />
+        <CyberBugTemplate exact path='/createProject' Component={CreateProjectCyberBug} />
+        <CyberBugTemplate exact path='/ProjectManagement' Component={ProjectManagement} />
         <HomeTemplate exact path='*' Component={PageNotDefound} />
       </Switch>
 
