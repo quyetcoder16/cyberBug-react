@@ -41,12 +41,14 @@ export function* theoDoiSigninSaga() {
 
 function* getUserSaga(action) {
     try {
+        // console.log(action);
         const { data, status } = yield call(() => {
-            return userService.getUser(action.keyword)
+            return userService.getUser(action.keyWord)
         });
-        if(status===STATUS_CODE.SUCCESS){
+        // console.log(data);
+        if (status === STATUS_CODE.SUCCESS) {
             yield put({
-                type:'GET_USER_SEARCH',
+                type: 'GET_USER_SEARCH',
                 lstUserSearch: data.content
             })
         }

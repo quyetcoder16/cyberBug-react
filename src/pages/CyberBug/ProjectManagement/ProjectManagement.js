@@ -11,6 +11,7 @@ export default function ProjectManagement() {
 
     const { projectList } = useSelector(state => state.ProjectCyberBugsReducer);
     const { userSearch } = useSelector(state => state.UserLoginCyberBugReducer);
+    console.log(userSearch);
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch({
@@ -79,6 +80,7 @@ export default function ProjectManagement() {
             title: 'members',
             key: 'members',
             render: (text, record, index) => {
+                // console.log(record);
                 console.log(record);
                 return <div>
                     {record.members?.splice(0, 3).map((member, index) => {

@@ -7,6 +7,7 @@ export class UserService extends BaseService {
     }
 
     getUser = (keyword) => {
+        // console.log(keyword);
         return this.get(`Users/getUser?keyword=${keyword}`);
     }
 }

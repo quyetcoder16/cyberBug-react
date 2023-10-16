@@ -20,6 +20,8 @@ export class BaseService {
         })
     }
     get = (url) => {
+        // console.log('Bearer ' + localStorage.getItem(TOKEN));
+        console.log(`${DOMAIN_CYBER_BUG}/${url}`);
         return Axios({
             url: `${DOMAIN_CYBER_BUG}/${url}`,
             method: 'GET',
