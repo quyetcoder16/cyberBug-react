@@ -3,6 +3,8 @@ import { CREATE_PROJECT_SAGA, GET_LIST_PROJECT, GET_LIST_PROJECT_SAGA } from "..
 import { CyberBugServices } from "../../../services/CyberBugServices";
 import { DISPLAY_LOADING, HIDE_LOADING } from "../../types/ToDoListType";
 import { STATUS_CODE } from "../../../util/constants/settingSytem";
+import { projectService } from "../../../services/ProjectService";
+import { NotificationCyberBug } from "../../../util/Notiifications/NotificationCyberBug";
 
 function* createProjectSaga(action) {
 
@@ -54,4 +56,71 @@ function* getListProject(action) {
 
 export function* theoDoiGetListProject() {
     yield takeLatest(GET_LIST_PROJECT_SAGA, getListProject)
+}
+
+function* updateProjectSaga(action) {
+    yield put({
+        type: DISPLAY_LOADING,
+    })
+
+    try {
+        const { data, status } = yield call(() => {
+            return CyberBugServices.updateProject(action.projectUpdate);
+        })
+        if (status === STATUS_CODE.SUCCESS) {
+            console.log(data);
+            yield put({
+                type: 'CLOSE_DRAWER'
+            })
+        }
+    } catch (err) {
+        console.log(err);
+    }
+
+
+    yield put({
+        type: GET_LIST_PROJECT_SAGA,
+    })
+    yield put({
+        type: HIDE_LOADING,
+    })
+}
+
+export function* theoDoiUppdateProject() {
+    yield takeLatest('UPDATE_PROJECT_SAGA', updateProjectSaga);
+}
+
+function* deleteProjectSaga(action) {
+    yield put({
+        type: DISPLAY_LOADING,
+    })
+
+    try {
+        // console.log(action);
+        const { data, status } = yield call(() => {
+            return projectService.deleteProject(action.idProject);
+        });
+        if (status === STATUS_CODE.SUCCESS) {
+            NotificationCyberBug('success','DELETE project Done!');
+            yield put({
+                type: GET_LIST_PROJECT_SAGA,
+            })
+        }else{
+            NotificationCyberBug('error','DELETE project fail!');
+        }
+        // console.log(data);
+    } catch (err) {
+        NotificationCyberBug('error','DELETE project fail!');
+
+        console.log(err);
+    }
+
+    yield put({
+        type: HIDE_LOADING,
+    })
+}
+
+
+export function* theoDoiDeleteProject() {
+    yield takeLatest('DELETE_PROJECT_SAGA', deleteProjectSaga)
 }

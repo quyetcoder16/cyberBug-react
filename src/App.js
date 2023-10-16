@@ -23,6 +23,7 @@ import CyberBugTemplate from './templates/HomeTemplate/CyberBugTemplate';
 import IndexCyberBug from './pages/CyberBug/IndexCyberBug';
 import CreateProjectCyberBug from './pages/CyberBug/CreateProjectCyberBug/CreateProjectCyberBug';
 import ProjectManagement from './pages/CyberBug/ProjectManagement/ProjectManagement';
+import DrawerCyberBugs from './HOC/cyberBugsHOC/DrawerCyberBug';
 
 function App() {
 
@@ -39,7 +40,8 @@ function App() {
   return (
     <>
       {/* <Header /> */}
-      <Modal />
+      {/* <Modal /> */}
+      <DrawerCyberBugs />
       <LoadingComponent />
       <Switch>
 

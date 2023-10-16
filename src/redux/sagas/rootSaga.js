@@ -14,6 +14,7 @@ export function* rootSaga() {
         // solve cyberBug
 
         CyberBug.theoDoiSigninSaga(),
+        CyberBug.theoDoiGetUserSaga(),
 
         ProjectCategorySaga.theoDoiGetAllProjectCategory(),
 
@@ -21,5 +22,7 @@ export function* rootSaga() {
 
         ProjectCyberBugSaga.theoDoiCreateProjectSaga(),
         ProjectCyberBugSaga.theoDoiGetListProject(),
+        ProjectCyberBugSaga.theoDoiUppdateProject(),
+        ProjectCyberBugSaga.theoDoiDeleteProject(),
     ])
 }

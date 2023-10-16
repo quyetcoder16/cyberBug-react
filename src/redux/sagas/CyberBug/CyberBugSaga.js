@@ -1,9 +1,10 @@
 import { call, delay, fork, take, takeEvery, takeLatest, put, select } from 'redux-saga/effects';
 import { USER_SIGNIN_API, USLOGIN } from '../../types/cyberBugConstant/CyberBugConstants';
 import { CyberBugServices } from '../../../services/CyberBugServices';
-import { TOKEN, USER_LOGIN } from '../../../util/constants/settingSytem';
+import { STATUS_CODE, TOKEN, USER_LOGIN } from '../../../util/constants/settingSytem';
 import { DISPLAY_LOADING, HIDE_LOADING } from '../../types/ToDoListType';
 import { history } from '../../../util/constants/History';
+import { userService } from '../../../services/UserService';
 
 function* signinSaga(action) {
     yield put({
@@ -36,4 +37,24 @@ function* signinSaga(action) {
 
 export function* theoDoiSigninSaga() {
     yield takeLatest(USER_SIGNIN_API, signinSaga);
+}
+
+function* getUserSaga(action) {
+    try {
+        const { data, status } = yield call(() => {
+            return userService.getUser(action.keyword)
+        });
+        if(status===STATUS_CODE.SUCCESS){
+            yield put({
+                type:'GET_USER_SEARCH',
+                lstUserSearch: data.content
+            })
+        }
+    } catch (err) {
+        console.log(err.response.data);
+    }
+}
+
+export function* theoDoiGetUserSaga() {
+    yield takeLatest('GET_USER_API', getUserSaga);
 }

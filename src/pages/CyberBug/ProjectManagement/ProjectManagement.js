@@ -1,20 +1,22 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Space, Table, Tag } from 'antd';
+import { AutoComplete, Popover, Avatar, Button, Space, Table, Tag } from 'antd';
 import { FormOutlined, DeleteOutlined } from '@ant-design/icons'
 import ReactHtmlParser from 'html-react-parser';
 import { useDispatch, useSelector } from 'react-redux';
 import { GET_LIST_PROJECT_SAGA } from '../../../redux/types/cyberBugConstant/CyberBugConstants';
+import FormEditProject from '../../../components/Form/FormEditProject';
+import { message, Popconfirm } from 'antd';
 
 export default function ProjectManagement() {
 
     const { projectList } = useSelector(state => state.ProjectCyberBugsReducer);
+    const { userSearch } = useSelector(state => state.UserLoginCyberBugReducer);
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch({
             type: GET_LIST_PROJECT_SAGA
         })
     }, []);
-
 
     const [filteredInfo, setFilteredInfo] = useState({});
     const [sortedInfo, setSortedInfo] = useState({});
@@ -74,17 +76,79 @@ export default function ProjectManagement() {
             }
         },
         {
+            title: 'members',
+            key: 'members',
+            render: (text, record, index) => {
+                console.log(record);
+                return <div>
+                    {record.members?.splice(0, 3).map((member, index) => {
+                        return <Avatar key={index} src={member.avatar} />
+                    })}
+                    {record.members?.length > 3 ? <Avatar>...</Avatar> : ''}
+                    <Popover placement="topLeft" title="Add user" content={() => {
+                        return <AutoComplete
+                            options={userSearch?.map((user, index) => {
+                                return { label: user.name, value: user.userId }
+                            })}
+                            onSelect={(value, option) => {
+                                console.log('userId', value);
+                                console.log('option', option)
+                            }}
+                            onSearch={(value) => {
+                                dispatch({
+                                    type: 'GET_USER_API',
+                                    keyWord: value
+                                })
+                            }}
+                            style={{ width: '100%' }
+                            } />
+                    }} trigger="click">
+                        <Button style={{ borderRadius: '50%' }}>+</Button>
+                    </Popover>
+                </div>
+            }
+        },
+        {
             title: 'Action',
             dataIndex: '',
             key: 'x',
             render: (text, record, index) => {
                 return (<div>
-                    <button className="btn mr-2 btn-primary">
+                    <button className="btn mr-2 btn-primary" onClick={() => {
+                        const action = {
+                            type: 'OPEN_FORM_EDIT_PROJECT',
+                            Component: <FormEditProject />,
+                        }
+
+                        //dispatch lên reducer nội dung drawer
+                        dispatch(action);
+
+                        const actionEditProject = {
+                            type: 'EDIT_PROJECT',
+                            projectEditModel: record
+                        }
+                        dispatch(actionEditProject);
+                    }}>
                         <FormOutlined style={{ fontSize: 17 }} />
                     </button>
-                    <button className="btn btn-danger">
-                        <DeleteOutlined style={{ fontSize: 17 }} />
-                    </button>
+                    <Popconfirm
+                        title="Delete the task"
+                        description="Are you sure to delete this task?"
+                        onConfirm={() => {
+                            dispatch({
+                                type: 'DELETE_PROJECT_SAGA',
+                                idProject: record.id,
+                            })
+                        }}
+                        // onCancel={cancel}
+                        okText="Yes"
+                        cancelText="No"
+                    >
+                        <button className="btn btn-danger">
+                            <DeleteOutlined style={{ fontSize: 17 }} />
+                        </button>
+                    </Popconfirm>
+
                 </div>);
             }
         }
