@@ -12,8 +12,12 @@ export class UserService extends BaseService {
     }
 
     assignUserProject = (userProject) => {
-        console.log(userProject);
+        // console.log(userProject);
         return this.post("Project/assignUserProject", userProject)
+    }
+
+    deleteUSerFromProject = (userProject) => {
+        return this.post("Project/removeUserFromProject", userProject);
     }
 }
 

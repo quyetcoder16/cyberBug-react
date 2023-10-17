@@ -67,7 +67,7 @@ function* addUserProjectSaga(action) {
         const { data, status } = yield call(() => {
             return userService.assignUserProject(action.userProject);
         });
-        yield ({
+        yield put({
             type: GET_LIST_PROJECT_SAGA
         })
     } catch (err) {
@@ -77,4 +77,24 @@ function* addUserProjectSaga(action) {
 
 export function* theoDoiAddUserProject() {
     yield takeLatest("ADD_USER_PROJECT_API", addUserProjectSaga);
+}
+
+function* removeUserFromProjectSaga(action) {
+    console.log(action);
+    try {
+        const { data, status } = yield call(() => {
+            return userService.deleteUSerFromProject(action.userProject);
+        });
+        if (status === STATUS_CODE.SUCCESS) {
+            yield put({
+                type: GET_LIST_PROJECT_SAGA
+            })
+        }
+    } catch (err) {
+        console.log(err.response.data);
+    }
+}
+
+export function* theoDoiRemoveUserFromProject() {
+    yield takeLatest("REMOVE_USER_PROJECT_API", removeUserFromProjectSaga)
 }
