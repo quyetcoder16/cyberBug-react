@@ -1,5 +1,5 @@
 import { call, delay, fork, take, takeEvery, takeLatest, put, select } from 'redux-saga/effects';
-import { USER_SIGNIN_API, USLOGIN } from '../../types/cyberBugConstant/CyberBugConstants';
+import { GET_LIST_PROJECT_SAGA, USER_SIGNIN_API, USLOGIN } from '../../types/cyberBugConstant/CyberBugConstants';
 import { CyberBugServices } from '../../../services/CyberBugServices';
 import { STATUS_CODE, TOKEN, USER_LOGIN } from '../../../util/constants/settingSytem';
 import { DISPLAY_LOADING, HIDE_LOADING } from '../../types/ToDoListType';
@@ -59,4 +59,22 @@ function* getUserSaga(action) {
 
 export function* theoDoiGetUserSaga() {
     yield takeLatest('GET_USER_API', getUserSaga);
+}
+
+function* addUserProjectSaga(action) {
+    // console.log(action);
+    try {
+        const { data, status } = yield call(() => {
+            return userService.assignUserProject(action.userProject);
+        });
+        yield ({
+            type: GET_LIST_PROJECT_SAGA
+        })
+    } catch (err) {
+        console.log(err.response.data);
+    }
+}
+
+export function* theoDoiAddUserProject() {
+    yield takeLatest("ADD_USER_PROJECT_API", addUserProjectSaga);
 }

@@ -11,7 +11,8 @@ export default function ProjectManagement() {
 
     const { projectList } = useSelector(state => state.ProjectCyberBugsReducer);
     const { userSearch } = useSelector(state => state.UserLoginCyberBugReducer);
-    console.log(userSearch);
+    // console.log(userSearch);
+    const [value, setValue] = useState('');
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch({
@@ -81,7 +82,7 @@ export default function ProjectManagement() {
             key: 'members',
             render: (text, record, index) => {
                 // console.log(record);
-                console.log(record);
+                // console.log(record);
                 return <div>
                     {record.members?.splice(0, 3).map((member, index) => {
                         return <Avatar key={index} src={member.avatar} />
@@ -90,11 +91,22 @@ export default function ProjectManagement() {
                     <Popover placement="topLeft" title="Add user" content={() => {
                         return <AutoComplete
                             options={userSearch?.map((user, index) => {
-                                return { label: user.name, value: user.userId }
+                                return { label: user.name, value: user.userId.toString() }
                             })}
-                            onSelect={(value, option) => {
-                                console.log('userId', value);
-                                console.log('option', option)
+                            value={value}
+                            onChange={(text) => {
+                                console.log(text);
+                                setValue(text);
+                            }}
+                            onSelect={(valueSelect, option) => {
+                                // console.log(record);
+                                dispatch({
+                                    type: 'ADD_USER_PROJECT_API',
+                                    userProject: {
+                                        "projectId": record.id,
+                                        "userId": Number(valueSelect)
+                                    }
+                                })
                             }}
                             onSearch={(value) => {
                                 dispatch({
