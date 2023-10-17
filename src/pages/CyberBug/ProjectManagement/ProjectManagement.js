@@ -136,6 +136,7 @@ export default function ProjectManagement() {
                             }}
                             onSelect={(valueSelect, option) => {
                                 // console.log(record);
+                                setValue(option.label);
                                 dispatch({
                                     type: 'ADD_USER_PROJECT_API',
                                     userProject: {
