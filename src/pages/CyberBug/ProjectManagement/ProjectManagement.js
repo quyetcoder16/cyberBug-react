@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { GET_LIST_PROJECT_SAGA } from '../../../redux/types/cyberBugConstant/CyberBugConstants';
 import FormEditProject from '../../../components/Form/FormEditProject';
 import { message, Popconfirm } from 'antd';
+import { NavLink } from 'react-router-dom';
 
 export default function ProjectManagement() {
 
@@ -52,7 +53,10 @@ export default function ProjectManagement() {
         {
             title: 'Project Name',
             dataIndex: 'projectName',
-            key: 'projectName'
+            key: 'projectName',
+            render: (text, record, index) => {
+                return <NavLink to={`/projectdetail/${record.id}`}>{text}</NavLink>
+            }
         },
         // {
         //     title: 'description',

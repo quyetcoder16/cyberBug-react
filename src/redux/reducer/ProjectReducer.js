@@ -12,7 +12,9 @@ const initialState = {
 
         "categoryId": "2"
 
-    }
+    },
+
+    projectDetail: {}
 
 }
 
@@ -22,6 +24,11 @@ const initialState = {
 export const ProjectReducer = (state = initialState, action) => {
 
     switch (action.type) {
+
+        case 'PUT_PROJECT_DETAIL': {
+            state.projectDetail = action.projectDetail;
+            return { ...state };
+        }
 
         case 'EDIT_PROJECT': {
             state.projectEdit = action.projectEditModel;

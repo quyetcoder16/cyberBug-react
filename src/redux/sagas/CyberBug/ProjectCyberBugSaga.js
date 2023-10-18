@@ -101,16 +101,16 @@ function* deleteProjectSaga(action) {
             return projectService.deleteProject(action.idProject);
         });
         if (status === STATUS_CODE.SUCCESS) {
-            NotificationCyberBug('success','DELETE project Done!');
+            NotificationCyberBug('success', 'DELETE project Done!');
             yield put({
                 type: GET_LIST_PROJECT_SAGA,
             })
-        }else{
-            NotificationCyberBug('error','DELETE project fail!');
+        } else {
+            NotificationCyberBug('error', 'DELETE project fail!');
         }
         // console.log(data);
     } catch (err) {
-        NotificationCyberBug('error','DELETE project fail!');
+        NotificationCyberBug('error', 'DELETE project fail!');
 
         console.log(err);
     }
@@ -122,5 +122,33 @@ function* deleteProjectSaga(action) {
 
 
 export function* theoDoiDeleteProject() {
-    yield takeLatest('DELETE_PROJECT_SAGA', deleteProjectSaga)
+    yield takeLatest('DELETE_PROJECT_SAGA', deleteProjectSaga);
+}
+
+function* getProjectDetailSaga(action) {
+    // console.log(action);
+    yield put({
+        type: DISPLAY_LOADING,
+    })
+    try {
+        const { data, status } = yield call(() => {
+            return projectService.getProjectDetail(action.projectId);
+        });
+        if (status === STATUS_CODE.SUCCESS) {
+            // console.log(data);
+            yield put({
+                type: "PUT_PROJECT_DETAIL",
+                projectDetail: data.content
+            })
+        }
+    } catch (err) {
+        console.log(err);
+    }
+    yield put({
+        type: HIDE_LOADING,
+    })
+}
+
+export function* theoDoiGetProjectDetail() {
+    yield takeLatest("GET_PROJECT_DETAIL", getProjectDetailSaga);
 }

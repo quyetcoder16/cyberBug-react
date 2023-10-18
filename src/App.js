@@ -51,7 +51,7 @@ function App() {
         <UserLoginTemplate exact path='/login' Component={LoginCyberBug} />
         <Route exact path='/profile' Component={Profile} />
         <Route exact path='/detail/:id' component={Detail} />
-        <HomeTemplate exact path='/' Component={Home} />
+        <CyberBugTemplate exact path='/' Component={ProjectManagement} />
         <Route exact path='/ToDoListRFC' component={ToDoListRFC} />
         <Route exact path='/ToDoListRCC' component={ToDoListRCC} />
         <Route exact path='/ToDoListReducer' component={ToDoListReducer} />
@@ -60,6 +60,7 @@ function App() {
         <CyberBugTemplate exact path='/cyberBug' Component={IndexCyberBug} />
         <CyberBugTemplate exact path='/createProject' Component={CreateProjectCyberBug} />
         <CyberBugTemplate exact path='/ProjectManagement' Component={ProjectManagement} />
+        <CyberBugTemplate exact path='/projectdetail/:projectId' Component={IndexCyberBug}></CyberBugTemplate>
         <HomeTemplate exact path='*' Component={PageNotDefound} />
       </Switch>
 
