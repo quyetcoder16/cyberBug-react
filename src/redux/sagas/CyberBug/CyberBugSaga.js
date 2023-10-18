@@ -40,6 +40,7 @@ export function* theoDoiSigninSaga() {
 }
 
 function* getUserSaga(action) {
+    // console.log(action);
     try {
         // console.log(action);
         const { data, status } = yield call(() => {
@@ -80,7 +81,7 @@ export function* theoDoiAddUserProject() {
 }
 
 function* removeUserFromProjectSaga(action) {
-    console.log(action);
+    // console.log(action);
     try {
         const { data, status } = yield call(() => {
             return userService.deleteUSerFromProject(action.userProject);

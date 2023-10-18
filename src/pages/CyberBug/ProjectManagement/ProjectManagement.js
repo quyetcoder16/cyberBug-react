@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { AutoComplete, Popover, Avatar, Button, Space, Table, Tag } from 'antd';
 import { FormOutlined, DeleteOutlined } from '@ant-design/icons'
 import ReactHtmlParser from 'html-react-parser';
@@ -14,6 +14,7 @@ export default function ProjectManagement() {
     // console.log(userSearch);
     const [value, setValue] = useState('');
     const dispatch = useDispatch();
+    const searchRef = useRef(null);
     useEffect(() => {
         dispatch({
             type: GET_LIST_PROJECT_SAGA
@@ -81,11 +82,8 @@ export default function ProjectManagement() {
             title: 'members',
             key: 'members',
             render: (text, record, index) => {
-                // console.log(record);
-                // console.log(record);
-                console.log(record.members);
                 return <div>
-                    {record.members?.splice(0, 3).map((member, index) => {
+                    {record.members?.slice(0, 3).map((member, index) => {
                         return <Popover key={index} placement='top' content={() => {
                             return (<table className='table'>
                                 <thead>
@@ -98,7 +96,7 @@ export default function ProjectManagement() {
                                 </thead>
                                 <tbody>
                                     {record.members?.map((item, index) => {
-                                        console.log(index);
+                                        // console.log(index);
                                         return <tr key={index}>
                                             <td>{item.userId}</td>
                                             <td><img src={item.avatar} width="30" height="30" style={{ borderRadius: '15px' }} alt={index} /></td>
@@ -131,7 +129,7 @@ export default function ProjectManagement() {
                             })}
                             value={value}
                             onChange={(text) => {
-                                console.log(text);
+                                // console.log(text);
                                 setValue(text);
                             }}
                             onSelect={(valueSelect, option) => {
@@ -146,10 +144,19 @@ export default function ProjectManagement() {
                                 })
                             }}
                             onSearch={(value) => {
-                                dispatch({
-                                    type: 'GET_USER_API',
-                                    keyWord: value
-                                })
+
+                                if (searchRef.current) {
+                                    clearTimeout(searchRef.current);
+                                }
+
+                                searchRef.current = setTimeout(() => {
+                                    dispatch({
+                                        type: 'GET_USER_API',
+                                        keyWord: value
+                                    });
+                                }, 300);
+
+
                             }}
                             style={{ width: '100%' }
                             } />
