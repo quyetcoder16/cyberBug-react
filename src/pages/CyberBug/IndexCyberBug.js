@@ -9,7 +9,7 @@ export default function IndexCyberBug(props) {
 
     const dispatch = useDispatch();
     const { projectDetail } = useSelector(state => state.ProjectReducer);
-    console.log(projectDetail);
+    // console.log(projectDetail);
     useEffect(() => {
         const { projectId } = props.match.params;
         dispatch({
@@ -20,9 +20,9 @@ export default function IndexCyberBug(props) {
 
     return (
         <div className='main'>
-            <HeaderMainCyberBug />
-            <InfoMainCyberBug />
-            <ContentMainCyberBug />
+            <HeaderMainCyberBug projectDetail={projectDetail} />
+            <InfoMainCyberBug projectDetail={projectDetail} />
+            <ContentMainCyberBug projectDetail={projectDetail} />
         </div>
     )
 }
