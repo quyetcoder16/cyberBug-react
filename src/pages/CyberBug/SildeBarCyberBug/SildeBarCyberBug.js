@@ -9,6 +9,8 @@ import {
     SearchOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu, Button, theme } from 'antd';
+import { useDispatch } from 'react-redux';
+import FormCreateTask from '../../../components/Form/FormCreateTask/FormCreateTask';
 
 const { Header, Sider, Content } = Layout;
 
@@ -18,6 +20,8 @@ export default function SildeBarCyberBug() {
     const {
         token: { colorBgContainer },
     } = theme.useToken();
+
+    const dispatch = useDispatch();
 
     return (
         <Layout>
@@ -31,7 +35,14 @@ export default function SildeBarCyberBug() {
                         {
                             key: '1',
                             icon: <PlusOutlined />,
-                            label: 'Create issue',
+                            label: 'Create task',
+                            onClick: () => {
+                                dispatch({
+                                    type: 'OPEN_FORM_CREATE_TASK',
+                                    Component: <FormCreateTask />,
+                                    title: 'Create task'
+                                })
+                            }
                         },
                         {
                             key: '2',
