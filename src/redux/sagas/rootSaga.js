@@ -5,6 +5,7 @@ import * as ProjectCategorySaga from './CyberBug/ProjectCategorySaga';
 import * as ProjectCyberBugSaga from './CyberBug/ProjectCyberBugSaga';
 import * as TaskTypeSaga from './CyberBug/TaskTypeSaga';
 import * as PrioritySaga from './CyberBug/PrioritySaga';
+import * as TaskSaga from './CyberBug/TaskSaga';
 
 export function* rootSaga() {
     yield all([
@@ -37,5 +38,9 @@ export function* rootSaga() {
         // priority 
 
         PrioritySaga.theoDoiGetAllPriority(),
+
+        // task saga
+
+        TaskSaga.theoDoiCreateTaskSaga(),
     ])
 }
