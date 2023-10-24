@@ -5,6 +5,7 @@ import { STATUS_CODE, TOKEN, USER_LOGIN } from '../../../util/constants/settingS
 import { DISPLAY_LOADING, HIDE_LOADING } from '../../types/ToDoListType';
 import { history } from '../../../util/constants/History';
 import { userService } from '../../../services/UserService';
+import { GET_USER_BY_PROJECT_ID, GET_USER_BY_PROJECT_ID_SAGA } from '../../types/cyberBugConstant/UserConstant';
 
 function* signinSaga(action) {
     yield put({
@@ -98,4 +99,24 @@ function* removeUserFromProjectSaga(action) {
 
 export function* theoDoiRemoveUserFromProject() {
     yield takeLatest("REMOVE_USER_PROJECT_API", removeUserFromProjectSaga)
+}
+
+function* getUserByProjectId(action) {
+    try {
+        const { data, status } = yield call(() => {
+            return userService.getUserByProjectId(action.projectId);
+        })
+        if (status === STATUS_CODE.SUCCESS) {
+            yield put({
+                type: GET_USER_BY_PROJECT_ID,
+                arrUser: data.content,
+            });
+        }
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+export function* theoDoiGetUserByProjectIdSaga() {
+    yield takeLatest(GET_USER_BY_PROJECT_ID_SAGA, getUserByProjectId);
 }

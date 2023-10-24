@@ -6,6 +6,7 @@ import { STATUS_CODE } from "../../../util/constants/settingSytem";
 import { projectService } from "../../../services/ProjectService";
 import { NotificationCyberBug } from "../../../util/Notiifications/NotificationCyberBug";
 import { GET_ALL_PROJECT } from "../../types/cyberBugConstant/ProjectCyberConstants";
+import { GET_USER_BY_PROJECT_ID_SAGA } from "../../types/cyberBugConstant/UserConstant";
 
 function* createProjectSaga(action) {
 
@@ -165,6 +166,10 @@ function* getAllProject(action) {
                 type: GET_ALL_PROJECT,
                 arrProject: data.content
             });
+            yield put({
+                type: GET_USER_BY_PROJECT_ID_SAGA,
+                projectId: data.content[0].id,
+            })
         }
 
     } catch (err) {

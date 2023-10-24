@@ -1,5 +1,6 @@
 import { USER_LOGIN } from "../../util/constants/settingSytem";
 import { USLOGIN } from "../types/cyberBugConstant/CyberBugConstants";
+import { GET_USER_BY_PROJECT_ID } from "../types/cyberBugConstant/UserConstant";
 
 let usLogin = {};
 
@@ -9,7 +10,8 @@ if (localStorage.getItem(USER_LOGIN)) {
 
 const stateDefault = {
     userLogin: usLogin,
-    userSearch:[]
+    userSearch: [],
+    arrUser: [],
 }
 
 export const UserLoginCyberBugReducer = (state = stateDefault, action) => {
@@ -20,11 +22,15 @@ export const UserLoginCyberBugReducer = (state = stateDefault, action) => {
             return { ...state };
         }
 
-        case 'GET_USER_SEARCH' :{
+        case 'GET_USER_SEARCH': {
             // console.log(action);
             state.userSearch = action.lstUserSearch;
             // console.log('stateUser',state);
-            return {...state}
+            return { ...state }
+        }
+
+        case GET_USER_BY_PROJECT_ID: {
+            return { ...state, arrUser: action.arrUser };
         }
 
         default: {

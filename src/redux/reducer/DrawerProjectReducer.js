@@ -30,6 +30,10 @@ export const DrawerProjectReducer = (state = initialState, action) => {
             return { ...state };
         }
 
+        case 'SET_SUBMIT_CREATE_TASK': {
+            return { ...state, callBackSubmit: action.submitFunction }
+        }
+
         case 'SET_SUBMIT_EDIT_PROJECT': {
             state.callBackSubmit = action.submitFunction;
             return { ...state };
