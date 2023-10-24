@@ -11,28 +11,32 @@ export default function ContentMainCyberBug(props) {
                     {taskListDetail.statusName}
                 </div>
                 <ul className="list-group list-group-flush">
-                    <li className="list-group-item" data-toggle="modal" data-target="#infoModal" style={{ cursor: 'pointer' }}>
-                        <p>
-                            Each issue has a single reporter but can have multiple
-                            assignees
-                        </p>
-                        <div className="block" style={{ display: 'flex' }}>
-                            <div className="block-left">
-                                <i className="fa fa-bookmark" />
-                                <i className="fa fa-arrow-up" />
-                            </div>
-                            <div className="block-right">
-                                <div className="avatar-group" style={{ display: 'flex' }}>
-                                    <div className="avatar">
-                                        <img src={require("../../../assets/img/download (1).jfif")} alt='1' />
-                                    </div>
-                                    <div className="avatar">
-                                        <img src={require("../../../assets/img/download (2).jfif")} alt='2' />
+                    {taskListDetail.lstTaskDeTail.map((task, index) => {
+                        return <li key={index} className="list-group-item" data-toggle="modal" data-target="#infoModal" style={{ cursor: 'pointer' }}>
+                            <p className="font-weight-300">
+                                {task.taskName}
+                            </p>
+                            <div className="block" style={{ display: 'flex' }}>
+                                <div className="block-left">
+                                    <p className="text-danger">{task.priorityTask.priority}</p>
+                                    {/* <i className="fa fa-bookmark" />
+                            <i className="fa fa-arrow-up" /> */}
+                                </div>
+                                <div className="block-right">
+                                    <div className="avatar-group" style={{ display: 'flex' }}>
+                                        {task.assigness.map((mem, index) => {
+                                            return <div className="avatar" key={index}>
+                                                <img src={mem.avatar} alt={mem.avatar} />
+                                            </div>
+                                        })}
+
+
+
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </li>
+                        </li>
+                    })}
 
                 </ul>
             </div>
