@@ -3,6 +3,8 @@ import * as ToDoListSaga from './ToDoListSaga';
 import * as CyberBug from './CyberBug/CyberBugSaga'
 import * as ProjectCategorySaga from './CyberBug/ProjectCategorySaga';
 import * as ProjectCyberBugSaga from './CyberBug/ProjectCyberBugSaga';
+import * as TaskTypeSaga from './CyberBug/TaskTypeSaga';
+import * as PrioritySaga from './CyberBug/PrioritySaga';
 
 export function* rootSaga() {
     yield all([
@@ -27,5 +29,13 @@ export function* rootSaga() {
         ProjectCyberBugSaga.theoDoiUppdateProject(),
         ProjectCyberBugSaga.theoDoiDeleteProject(),
         ProjectCyberBugSaga.theoDoiGetProjectDetail(),
+        ProjectCyberBugSaga.theoDoiGetAllProjectSaga(),
+
+        // task type 
+        TaskTypeSaga.theoDoiGetTaskTypeSaga(),
+
+        // priority 
+
+        PrioritySaga.theoDoiGetAllPriority(),
     ])
 }

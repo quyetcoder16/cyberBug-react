@@ -5,6 +5,7 @@ import { DISPLAY_LOADING, HIDE_LOADING } from "../../types/ToDoListType";
 import { STATUS_CODE } from "../../../util/constants/settingSytem";
 import { projectService } from "../../../services/ProjectService";
 import { NotificationCyberBug } from "../../../util/Notiifications/NotificationCyberBug";
+import { GET_ALL_PROJECT } from "../../types/cyberBugConstant/ProjectCyberConstants";
 
 function* createProjectSaga(action) {
 
@@ -151,4 +152,26 @@ function* getProjectDetailSaga(action) {
 
 export function* theoDoiGetProjectDetail() {
     yield takeLatest("GET_PROJECT_DETAIL", getProjectDetailSaga);
+}
+
+function* getAllProject(action) {
+    // console.log(action);
+    try {
+        const { data, status } = yield call(() => {
+            return projectService.getAllProject();
+        });
+        if (status === STATUS_CODE.SUCCESS) {
+            yield put({
+                type: GET_ALL_PROJECT,
+                arrProject: data.content
+            });
+        }
+
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+export function* theoDoiGetAllProjectSaga() {
+    yield takeLatest(GET_LIST_PROJECT_SAGA, getAllProject);
 }

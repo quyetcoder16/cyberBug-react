@@ -2,8 +2,25 @@ import React, { useState } from 'react'
 
 import { Editor } from '@tinymce/tinymce-react'
 import { Select, Slider } from 'antd'
+import { useDispatch, useSelector } from 'react-redux'
+import { useEffect } from 'react';
+import { GET_ALL_PROJECT_SAGA } from '../../../redux/types/cyberBugConstant/ProjectCyberConstants';
+import { GET_TASK_TYPE_SAGA } from '../../../redux/types/cyberBugConstant/TaskTypeConstants';
+import { GET_ALL_PRIORITY_SAGA } from '../../../redux/types/cyberBugConstant/PriorityConstants';
 
 export default function FormCreateTask(props) {
+
+
+    const { arrProject } = useSelector(state => state.ProjectCyberBugsReducer);
+    const { arrTaskType } = useSelector(state => state.TaskTypeReducer);
+    const { arrPriority } = useSelector(state => state.PriorityReducer);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch({ type: GET_ALL_PROJECT_SAGA });
+        dispatch({ type: GET_TASK_TYPE_SAGA });
+        dispatch({ type: GET_ALL_PRIORITY_SAGA });
+    }, []);
 
     const handleEditorChange = (content, editor) => {
 
@@ -31,8 +48,9 @@ export default function FormCreateTask(props) {
             <div className="form-group">
                 <p>Project</p>
                 <select name="projectId" className="form-control">
-                    <option value="54">Project A</option>
-                    <option value="55">Project A</option>
+                    {arrProject.map((project, index) => {
+                        return <option key={index} value={project.id}>{project.projectName}</option>
+                    })}
                 </select>
             </div>
             <div className="form-group">
@@ -40,15 +58,17 @@ export default function FormCreateTask(props) {
                     <div className="col-6">
                         <p>Priority</p>
                         <select name="priorityId" className="form-control">
-                            <option>High</option>
-                            <option>Low</option>
+                            {arrPriority.map((priority, index) => {
+                                return <option key={index} value={priority.priorityId}>{priority.priority}</option>
+                            })}
                         </select>
                     </div>
                     <div className="col-6">
                         <p>Task type</p>
                         <select className="form-control" name="typeId">
-                            <option>New Task</option>
-                            <option>Bugs</option>
+                            {arrTaskType.map((taskType, index) => {
+                                return <option key={index} value={taskType.id}>{taskType.taskType}</option>
+                            })}
                         </select>
                     </div>
                 </div>
@@ -81,9 +101,7 @@ export default function FormCreateTask(props) {
                             max={Number(timeTracking.timeTrackingRemaining) + Number(timeTracking.timeTrackingSpent)}
                             value={Number(timeTracking.timeTrackingSpent)}
                             defaultValue={0}
-                            tooltip={{
-                                open: true,
-                            }}
+
                         />
                         <div className="row">
                             <div className="col-6 text-left font-weight-bold">{timeTracking.timeTrackingSpent}h logged</div>

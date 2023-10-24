@@ -13,7 +13,7 @@ export default function DrawerCyberBugs(props) {
 
     const dispatch = useDispatch();
 
-    console.log('visible', visible)
+    // console.log('visible', visible)
 
 
     const showDrawer = () => {
