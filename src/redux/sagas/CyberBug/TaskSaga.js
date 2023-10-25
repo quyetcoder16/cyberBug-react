@@ -3,6 +3,7 @@ import { DISPLAY_LOADING, HIDE_LOADING } from "../../types/ToDoListType";
 import { taskServices } from "../../../services/TaskServices";
 import { STATUS_CODE } from "../../../util/constants/settingSytem";
 import { NotificationCyberBug } from "../../../util/Notiifications/NotificationCyberBug";
+import { GET_TASK_DETAIL, GET_TASK_DETAIL_SAGA } from "../../types/cyberBugConstant/TaskConstants";
 
 function* createTaskSaga(action) {
     yield put({
@@ -31,4 +32,25 @@ function* createTaskSaga(action) {
 
 export function* theoDoiCreateTaskSaga() {
     yield takeLatest("CREATE_TASK_SAGA", createTaskSaga);
+}
+
+function* getTaskDetail(action) {
+    try {
+        const { data, status } = yield call(() => {
+            return taskServices.getTaskDetail(action.taskId);
+        });
+        if (status === STATUS_CODE.SUCCESS) {
+            yield put({
+                type: GET_TASK_DETAIL,
+                taskDetailModal: data.content,
+            })
+        }
+    } catch (err) {
+        console.log(err);
+        console.log(err.response?.data);
+    }
+}
+
+export function* theoDoiGetTaskDetail() {
+    yield takeLatest(GET_TASK_DETAIL_SAGA, getTaskDetail);
 }
