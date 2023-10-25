@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import ReactHtmlParser from 'html-react-parser';
 import { useEffect } from 'react';
@@ -6,6 +6,7 @@ import { GET_ALL_STATUS_SAGA } from '../../../redux/types/cyberBugConstant/Statu
 import { GET_ALL_PRIORITY_SAGA } from '../../../redux/types/cyberBugConstant/PriorityConstants';
 import { CHANGE_TASK_MODAL, UPDATE_STATUS_TASK_SAGA } from '../../../redux/types/cyberBugConstant/TaskConstants';
 import { GET_TASK_TYPE_SAGA } from '../../../redux/types/cyberBugConstant/TaskTypeConstants';
+import { Editor } from '@tinymce/tinymce-react';
 
 export default function ModalCyberBug() {
 
@@ -15,6 +16,10 @@ export default function ModalCyberBug() {
     const { arrPriority } = useSelector(state => state.PriorityReducer);
     const { arrTaskType } = useSelector(state => state.TaskTypeReducer);
 
+
+    const [visibleEditor, setVisibleEditor] = useState(false);
+    const [historyContent, setHistoryContent] = useState(taskDetailModal.description);
+    const [content, setContent] = useState(taskDetailModal.description);
 
     useEffect(() => {
         dispatch({ type: GET_ALL_STATUS_SAGA, });
@@ -33,7 +38,53 @@ export default function ModalCyberBug() {
 
     const renderDescription = () => {
         const jsxDescription = ReactHtmlParser(taskDetailModal.description);
-        return jsxDescription;
+        return <div>
+            {visibleEditor ? <div>
+                <Editor
+                    name="description"
+                    initialValue={taskDetailModal.description}
+                    init={{
+                        selector: 'textarea#myTextArea',
+                        height: 500,
+                        menubar: false,
+                        plugins: [
+                            'advlist autolink lists link image charmap print preview anchor',
+                            'searchreplace visualblocks code fullscreen',
+                            'insertdatetime media table paste code help wordcount'
+                        ],
+                        toolbar:
+                            'undo redo | formatselect | bold italic backcolor | \
+                            alignleft aligncenter alignright alignjustify | \
+                            bullist numlist outdent indent | removeformat | help'
+                    }}
+                    onEditorChange={(content, editor) => {
+                        setContent(content);
+                    }}
+                />
+                <button className='btn btn-primary m-2' onClick={() => {
+                    dispatch({
+                        type: CHANGE_TASK_MODAL,
+                        name: 'description',
+                        value: content
+                    })
+                    setVisibleEditor(false)
+                }}>Save</button>
+                <button className='btn btn-default m-2' onClick={() => {
+                    dispatch({
+                        type: CHANGE_TASK_MODAL,
+                        name: 'description',
+                        value: historyContent
+                    })
+                    setVisibleEditor(false);
+                }}>Close</button>
+            </div>
+                : <div onClick={() => {
+
+                    setHistoryContent(taskDetailModal.description);
+                    setVisibleEditor(!visibleEditor);
+
+                }}>{jsxDescription}</div>}
+        </div>
     }
 
     const renderTimeTracking = () => {
