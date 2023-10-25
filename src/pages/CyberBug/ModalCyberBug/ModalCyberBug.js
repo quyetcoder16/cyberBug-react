@@ -4,6 +4,7 @@ import ReactHtmlParser from 'html-react-parser';
 import { useEffect } from 'react';
 import { GET_ALL_STATUS_SAGA } from '../../../redux/types/cyberBugConstant/StatusConstants';
 import { GET_ALL_PRIORITY_SAGA } from '../../../redux/types/cyberBugConstant/PriorityConstants';
+import { UPDATE_STATUS_TASK_SAGA } from '../../../redux/types/cyberBugConstant/TaskConstants';
 
 export default function ModalCyberBug() {
 
@@ -154,7 +155,16 @@ export default function ModalCyberBug() {
                                     <div className="col-4">
                                         <div className="status">
                                             <h6>STATUS</h6>
-                                            <select className="custom-select">
+                                            <select className="custom-select" value={taskDetailModal.statusId} onChange={(e) => {
+                                                dispatch({
+                                                    type: UPDATE_STATUS_TASK_SAGA,
+                                                    taskUpdateStatus: {
+                                                        taskId: taskDetailModal.taskId,
+                                                        statusId: e.target.value,
+                                                        projectId: taskDetailModal.projectId
+                                                    }
+                                                })
+                                            }}>
                                                 {arrStatus?.map((status, index) => {
                                                     return <option value={status.statusId} key={index} >{status.statusName}</option>
                                                 })}
