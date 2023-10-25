@@ -3,7 +3,7 @@ import React from 'react'
 export default function InfoMainCyberBug(props) {
 
     const { projectDetail } = props;
-    console.log(projectDetail);
+    // console.log(projectDetail);
 
     const renderAvatar = () => {
         return projectDetail.members?.map((user, index) => {

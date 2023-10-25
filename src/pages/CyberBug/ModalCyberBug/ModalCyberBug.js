@@ -4,7 +4,8 @@ import ReactHtmlParser from 'html-react-parser';
 import { useEffect } from 'react';
 import { GET_ALL_STATUS_SAGA } from '../../../redux/types/cyberBugConstant/StatusConstants';
 import { GET_ALL_PRIORITY_SAGA } from '../../../redux/types/cyberBugConstant/PriorityConstants';
-import { UPDATE_STATUS_TASK_SAGA } from '../../../redux/types/cyberBugConstant/TaskConstants';
+import { CHANGE_TASK_MODAL, UPDATE_STATUS_TASK_SAGA } from '../../../redux/types/cyberBugConstant/TaskConstants';
+import { GET_TASK_TYPE_SAGA } from '../../../redux/types/cyberBugConstant/TaskTypeConstants';
 
 export default function ModalCyberBug() {
 
@@ -12,12 +13,23 @@ export default function ModalCyberBug() {
     const { taskDetailModal } = useSelector(state => state.TaskReducer);
     const { arrStatus } = useSelector(state => state.StatusReducer);
     const { arrPriority } = useSelector(state => state.PriorityReducer);
+    const { arrTaskType } = useSelector(state => state.TaskTypeReducer);
 
 
     useEffect(() => {
         dispatch({ type: GET_ALL_STATUS_SAGA, });
         dispatch({ type: GET_ALL_PRIORITY_SAGA, });
+        dispatch({ type: GET_TASK_TYPE_SAGA });
     }, []);
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        dispatch({
+            type: CHANGE_TASK_MODAL,
+            name,
+            value,
+        })
+    }
 
     const renderDescription = () => {
         const jsxDescription = ReactHtmlParser(taskDetailModal.description);
@@ -30,16 +42,29 @@ export default function ModalCyberBug() {
         const max = Number(timeTrackingSpent) + Number(timeTrackingRemaining);
         const percent = Math.round(Number(timeTrackingSpent) / max * 100)
 
-        return <div style={{ display: 'flex' }}>
-            <i className="fa fa-clock" />
-            <div style={{ width: '100%' }}>
+        return <div>
+            <div style={{ display: 'flex' }}>
+                <i className="fa fa-clock" />
+                <div style={{ width: '100%' }}>
 
-                <div className="progress">
-                    <div className="progress-bar" role="progressbar" style={{ width: `${percent}%` }} aria-valuenow={Number(timeTrackingSpent)} aria-valuemin={Number(timeTrackingRemaining)} aria-valuemax={max} />
+                    <div className="progress">
+                        <div className="progress-bar" role="progressbar" style={{ width: `${percent}%` }} aria-valuenow={Number(timeTrackingSpent)} aria-valuemin={Number(timeTrackingRemaining)} aria-valuemax={max} />
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <p className="logged">{Number(timeTrackingSpent)}h logged</p>
+                        <p className="estimate-time">{Number(timeTrackingRemaining)}h remaining</p>
+                    </div>
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <p className="logged">{Number(timeTrackingRemaining)}h logged</p>
-                    <p className="estimate-time">{Number(timeTrackingRemaining)}h remaining</p>
+
+
+            </div>
+            <div className="row">
+
+                <div className="col-6">
+                    <input className="form-control" name="timeTrackingSpent" onChange={handleChange} />
+                </div>
+                <div className="col-6">
+                    <input className="form-control" name="timeTrackingRemaining" onChange={handleChange} />
                 </div>
             </div>
         </div>
@@ -82,6 +107,11 @@ export default function ModalCyberBug() {
                         <div className="modal-header">
                             <div className="task-title">
                                 <i className="fa fa-bookmark" />
+                                <select name='typeId' value={taskDetailModal.typeId} onChange={handleChange}>
+                                    {arrTaskType?.map((tp, index) => {
+                                        return <option key={index} value={tp.id}>{tp.taskType}</option>
+                                    })}
+                                </select>
                                 <span>{taskDetailModal.taskName}</span>
                             </div>
                             <div style={{ display: 'flex' }} className="task-click">
@@ -155,15 +185,16 @@ export default function ModalCyberBug() {
                                     <div className="col-4">
                                         <div className="status">
                                             <h6>STATUS</h6>
-                                            <select className="custom-select" value={taskDetailModal.statusId} onChange={(e) => {
-                                                dispatch({
-                                                    type: UPDATE_STATUS_TASK_SAGA,
-                                                    taskUpdateStatus: {
-                                                        taskId: taskDetailModal.taskId,
-                                                        statusId: e.target.value,
-                                                        projectId: taskDetailModal.projectId
-                                                    }
-                                                })
+                                            <select name='statusId' className="custom-select" value={taskDetailModal.statusId} onChange={(e) => {
+                                                handleChange(e);
+                                                // dispatch({
+                                                //     type: UPDATE_STATUS_TASK_SAGA,
+                                                //     taskUpdateStatus: {
+                                                //         taskId: taskDetailModal.taskId,
+                                                //         statusId: e.target.value,
+                                                //         projectId: taskDetailModal.projectId
+                                                //     }
+                                                // })
                                             }}>
                                                 {arrStatus?.map((status, index) => {
                                                     return <option value={status.statusId} key={index} >{status.statusName}</option>
@@ -205,8 +236,8 @@ export default function ModalCyberBug() {
                                         </div> */}
                                         <div className="priority" style={{ marginBottom: 20 }}>
                                             <h6>PRIORITY</h6>
-                                            <select className="form-control" value={taskDetailModal.priorityTask?.priorityId} onChange={(e) => {
-
+                                            <select name='priorityId' className="form-control" value={taskDetailModal?.priorityId} onChange={(e) => {
+                                                handleChange(e);
                                             }}>
                                                 {arrPriority.map((item, index) => {
                                                     return <option key={index} value={item.priorityId}>{item.priority}</option>
@@ -217,7 +248,7 @@ export default function ModalCyberBug() {
                                         </div>
                                         <div className="estimate">
                                             <h6>ORIGINAL ESTIMATE (HOURS)</h6>
-                                            <input type="text" className="estimate-hours" value={taskDetailModal.originalEstimate} />
+                                            <input name='originalEstimate' onChange={handleChange} type="text" className="estimate-hours" value={taskDetailModal.originalEstimate} />
                                         </div>
                                         <div className="time-tracking">
                                             <h6>TIME TRACKING</h6>
