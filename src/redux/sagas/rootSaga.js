@@ -46,6 +46,7 @@ export function* rootSaga() {
         TaskSaga.theoDoiCreateTaskSaga(),
         TaskSaga.theoDoiGetTaskDetail(),
         TaskSaga.theoDoiUpdateTaskStatusSaga(),
+        TaskSaga.theoDoiHandleChangePostApi(),
 
         // status saga 
 
