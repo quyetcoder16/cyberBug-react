@@ -7,6 +7,7 @@ import * as TaskTypeSaga from './CyberBug/TaskTypeSaga';
 import * as PrioritySaga from './CyberBug/PrioritySaga';
 import * as TaskSaga from './CyberBug/TaskSaga';
 import * as StatusSaga from './CyberBug/StatusSaga';
+import * as CommentSaga from './CyberBug/CommentSaga';
 
 export function* rootSaga() {
     yield all([
@@ -51,5 +52,9 @@ export function* rootSaga() {
         // status saga 
 
         StatusSaga.theoDoiGetAllStatusSaga(),
+
+        // comment saga 
+
+        CommentSaga.theoDoiGetAllCommentSaga(),
     ])
 }

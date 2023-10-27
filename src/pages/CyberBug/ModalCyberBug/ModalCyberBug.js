@@ -11,12 +11,17 @@ import { Select } from 'antd';
 
 export default function ModalCyberBug() {
 
+
     const dispatch = useDispatch();
     const { taskDetailModal } = useSelector(state => state.TaskReducer);
+    // console.log(taskDetailModal);
+
     const { arrStatus } = useSelector(state => state.StatusReducer);
     const { arrPriority } = useSelector(state => state.PriorityReducer);
     const { arrTaskType } = useSelector(state => state.TaskTypeReducer);
-    const { projectDetail } = useSelector(state => state.ProjectReducer)
+    const { projectDetail } = useSelector(state => state.ProjectReducer);
+    const { arrComment } = useSelector(state => state.CommentReducer);
+    // console.log(arrComment);
 
     const [visibleEditor, setVisibleEditor] = useState(false);
     const [historyContent, setHistoryContent] = useState(taskDetailModal.description);
@@ -137,6 +142,51 @@ export default function ModalCyberBug() {
         </div>
     }
 
+
+    const renderComment = () => {
+        return <>
+            <div className="block-comment" style={{ display: 'flex' }}>
+                <div className="avatar">
+                    <img src={require('../../../assets/img/download (1).jfif')} alt='' />
+                </div>
+                <div className="input-comment">
+                    <input type="text" placeholder="Add a comment ..." />
+                    <p>
+                        <span style={{ fontWeight: 500, color: 'gray' }}>Protip:</span>
+                        <span>press
+                            <span style={{ fontWeight: 'bold', background: '#ecedf0', color: '#b4bac6' }}>M</span>
+                            to comment</span>
+                    </p>
+                </div>
+            </div>
+            <div className="lastest-comment">
+                {arrComment?.map((comment, index) => {
+                    const jsxComment = ReactHtmlParser(comment.contentComment);
+                    return <div key={index} className="comment-item">
+                        <div className="display-comment" style={{ display: 'flex' }}>
+                            <div className="avatar">
+                                <img src={comment.user.avatar} alt={comment.user.avatar} />
+                            </div>
+                            <div>
+                                <p style={{ marginBottom: 5 }}>
+                                    {comment.user.name}
+                                </p>
+                                <div style={{ marginBottom: 5 }}>
+                                    {jsxComment}
+                                </div>
+                                <div>
+                                    <span className='mr-2' style={{ color: '#929398', cursor: "pointer" }}>Edit</span>
+                                    •
+                                    <span className='ml-2' style={{ color: '#929398', cursor: "pointer" }}>Delete</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                })}
+            </div>
+        </>
+    }
+
     return (
         <div>
             {/* Search Modal */}
@@ -207,46 +257,8 @@ export default function ModalCyberBug() {
                                         </div>
 
                                         <div className="comment">
-                                            <h6>Comment</h6>
-                                            <div className="block-comment" style={{ display: 'flex' }}>
-                                                <div className="avatar">
-                                                    <img src={require('../../../assets/img/download (1).jfif')} alt='' />
-                                                </div>
-                                                <div className="input-comment">
-                                                    <input type="text" placeholder="Add a comment ..." />
-                                                    <p>
-                                                        <span style={{ fontWeight: 500, color: 'gray' }}>Protip:</span>
-                                                        <span>press
-                                                            <span style={{ fontWeight: 'bold', background: '#ecedf0', color: '#b4bac6' }}>M</span>
-                                                            to comment</span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div className="lastest-comment">
-                                                <div className="comment-item">
-                                                    <div className="display-comment" style={{ display: 'flex' }}>
-                                                        <div className="avatar">
-                                                            <img src={require('../../../assets/img/download (1).jfif')} alt='' />
-                                                        </div>
-                                                        <div>
-                                                            <p style={{ marginBottom: 5 }}>
-                                                                Lord Gaben <span>a month ago</span>
-                                                            </p>
-                                                            <p style={{ marginBottom: 5 }}>
-                                                                Lorem ipsum dolor sit amet, consectetur
-                                                                adipisicing elit. Repellendus tempora ex
-                                                                voluptatum saepe ab officiis alias totam ad
-                                                                accusamus molestiae?
-                                                            </p>
-                                                            <div>
-                                                                <span style={{ color: '#929398' }}>Edit</span>
-                                                                •
-                                                                <span style={{ color: '#929398' }}>Delete</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <h6 style={{ fontWeight: 600 }}>Comment</h6>
+                                            {renderComment()}
                                         </div>
                                     </div>
                                     <div className="col-4">

@@ -1,0 +1,2 @@
+export const GET_ALL_COMMENT = "GET_ALL_COMMENT";
+export const GET_ALL_COMMENT_SAGA = "GET_ALL_COMMENT_SAGA";

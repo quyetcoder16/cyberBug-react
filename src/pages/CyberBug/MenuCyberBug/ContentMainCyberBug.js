@@ -2,6 +2,7 @@ import React from 'react'
 import { useDispatch } from 'react-redux';
 import { GET_TASK_DETAIL_SAGA, UPDATE_STATUS_TASK_SAGA } from '../../../redux/types/cyberBugConstant/TaskConstants';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import { GET_ALL_COMMENT_SAGA } from '../../../redux/types/cyberBugConstant/CommentConstants';
 
 export default function ContentMainCyberBug(props) {
 
@@ -56,6 +57,7 @@ export default function ContentMainCyberBug(props) {
                                                     {...provided.draggableProps}
                                                     {...provided.dragHandleProps}
                                                     key={index} className="list-group-item" data-toggle="modal" data-target="#infoModal" onClick={() => {
+                                                        dispatch({ type: GET_ALL_COMMENT_SAGA, taskId: task.taskId });
                                                         dispatch({ type: GET_TASK_DETAIL_SAGA, taskId: task.taskId });
 
                                                     }}>
