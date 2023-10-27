@@ -9,7 +9,7 @@ export default function MenuCyberBug() {
                     <img src={require('../../../assets/img/download.jfif')} alt='1' />
                 </div>
                 <div className="account-info">
-                    <p>CyberLearn.vn</p>
+                    <p>app project Management</p>
                     <p>Report bugs</p>
                 </div>
             </div>

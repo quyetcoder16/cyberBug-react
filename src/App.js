@@ -51,7 +51,7 @@ function App() {
         <UserLoginTemplate exact path='/login' Component={LoginCyberBug} />
         <Route exact path='/profile' Component={Profile} />
         <Route exact path='/detail/:id' component={Detail} />
-        <CyberBugTemplate exact path='/' Component={ProjectManagement} />
+        <UserLoginTemplate exact path='/' Component={LoginCyberBug} />
         <Route exact path='/ToDoListRFC' component={ToDoListRFC} />
         <Route exact path='/ToDoListRCC' component={ToDoListRCC} />
         <Route exact path='/ToDoListReducer' component={ToDoListReducer} />
