@@ -1,5 +1,5 @@
 import { call, put, takeLatest } from "redux-saga/effects"
-import { ADD_COMMENT_SAGA, DELETE_COMMENT_SAGA, GET_ALL_COMMENT, GET_ALL_COMMENT_SAGA } from "../../types/cyberBugConstant/CommentConstants"
+import { ADD_COMMENT_SAGA, DELETE_COMMENT_SAGA, GET_ALL_COMMENT, GET_ALL_COMMENT_SAGA, UPDATE_COMMENT_SAGA } from "../../types/cyberBugConstant/CommentConstants"
 import { commentServices } from "../../../services/CommentServices";
 import { STATUS_CODE } from "../../../util/constants/settingSytem";
 
@@ -66,5 +66,29 @@ function* addCommentSaga(action) {
 
 export function* theoDoiAddCommentSaga() {
     yield takeLatest(ADD_COMMENT_SAGA, addCommentSaga);
+}
+
+function* updateCommentSaga(action) {
+
+    try {
+        const { id, contentComment } = action;
+        const { data, status } = yield call(() => {
+            return commentServices.updateComment(id, contentComment);
+        });
+        // console.log(data);
+        if (status === STATUS_CODE.SUCCESS) {
+            yield put({
+                type: GET_ALL_COMMENT_SAGA,
+                taskId: action.taskId,
+            });
+        }
+    } catch (err) {
+        console.log(err);
+        console.log(err.response.data);
+    }
+}
+
+export function* theoDoiUpdateCommentSaga() {
+    yield takeLatest(UPDATE_COMMENT_SAGA, updateCommentSaga);
 }
 

@@ -8,7 +8,7 @@ import { CHANGE_ASSIGNESS, CHANGE_TASK_MODAL, HANDLE_CHANGE_POST_API_SAGA, REMOV
 import { GET_TASK_TYPE_SAGA } from '../../../redux/types/cyberBugConstant/TaskTypeConstants';
 import { Editor } from '@tinymce/tinymce-react';
 import { Select } from 'antd';
-import { ADD_COMMENT_SAGA, DELETE_COMMENT_SAGA } from '../../../redux/types/cyberBugConstant/CommentConstants';
+import { ADD_COMMENT_SAGA, DELETE_COMMENT_SAGA, UPDATE_COMMENT_SAGA } from '../../../redux/types/cyberBugConstant/CommentConstants';
 import { USER_LOGIN } from '../../../util/constants/settingSytem';
 
 export default function ModalCyberBug() {
@@ -29,9 +29,18 @@ export default function ModalCyberBug() {
     const [historyContent, setHistoryContent] = useState(taskDetailModal.description);
     const [content, setContent] = useState(taskDetailModal.description);
 
-    // comment 
+    // comment add
     const [visibleComment, setVisibleComment] = useState(false);
     const [contentComment, setContentComment] = useState("");
+
+    // edit comment
+
+    const [visibleCommentEdit, setVisibleCommentEdit] = useState({
+        idComment: "-1",
+        visible: false,
+    });
+    const [contentCommentEdit, setContentCommentEdit] = useState('');
+    // const [historyCommentEdit, setHistoryCommentEdit] = useState("");
 
     useEffect(() => {
         dispatch({ type: GET_ALL_STATUS_SAGA, });
@@ -210,20 +219,71 @@ export default function ModalCyberBug() {
                                 <p style={{ marginBottom: 5 }}>
                                     {comment.user.name}
                                 </p>
-                                <div style={{ marginBottom: 5 }}>
-                                    {jsxComment}
-                                </div>
-                                <div>
-                                    <span className='mr-2' style={{ color: '#929398', cursor: "pointer" }}>Edit</span>
-                                    •
-                                    <span className='ml-2' style={{ color: '#929398', cursor: "pointer" }} onClick={() => {
-                                        dispatch({
-                                            type: DELETE_COMMENT_SAGA,
-                                            idComment: comment.id,
-                                            taskId: taskDetailModal.taskId,
-                                        })
-                                    }}>Delete</span>
-                                </div>
+                                {(visibleCommentEdit.idComment === comment.id.toString() && visibleCommentEdit.visible) ? <>
+                                    <div>
+                                        <Editor
+                                            name="comment edit"
+                                            initialValue={comment.contentComment}
+                                            init={{
+                                                selector: 'textarea#myTextArea',
+                                                height: 150,
+                                                menubar: false,
+                                                plugins: [
+                                                    'advlist autolink lists link image charmap print preview anchor',
+                                                    'searchreplace visualblocks code fullscreen',
+                                                    'insertdatetime media table paste code help wordcount'
+                                                ],
+                                                toolbar:
+                                                    'undo redo | formatselect | bold italic backcolor | \
+                            alignleft aligncenter alignright alignjustify | \
+                            bullist numlist outdent indent | removeformat | help'
+                                            }}
+                                            onEditorChange={(content, editor) => {
+                                                setContentCommentEdit(content);
+                                            }}
+                                        />
+                                        <button className='btn btn-primary m-2' onClick={() => {
+                                            dispatch({
+                                                type: UPDATE_COMMENT_SAGA,
+                                                id: comment.id,
+                                                contentComment: contentCommentEdit,
+                                                taskId: taskDetailModal.taskId,
+                                            })
+                                            setVisibleCommentEdit({
+                                                idComment: comment.id.toString(),
+                                                visible: false,
+                                            });
+                                        }}>Save</button>
+                                        <button className='btn btn-default m-2' onClick={() => {
+                                            setVisibleCommentEdit({
+                                                idComment: comment.id.toString(),
+                                                visible: false,
+                                            });
+                                        }}>Close</button>
+                                    </div>
+                                </> : <div>
+                                    <div style={{ marginBottom: 5 }}>
+                                        {jsxComment}
+                                    </div>
+                                    <div>
+                                        <span className='mr-2' style={{ color: '#929398', cursor: "pointer" }} onClick={() => {
+                                            setContentCommentEdit(comment.contentComment);
+                                            setVisibleCommentEdit({
+                                                idComment: comment.id.toString(),
+                                                visible: true,
+                                            });
+                                        }}>Edit</span>
+                                        •
+                                        <span className='ml-2' style={{ color: '#929398', cursor: "pointer" }} onClick={() => {
+                                            dispatch({
+                                                type: DELETE_COMMENT_SAGA,
+                                                idComment: comment.id,
+                                                taskId: taskDetailModal.taskId,
+                                            })
+                                        }}>Delete</span>
+                                    </div>
+                                </div>}
+
                             </div>
                         </div>
                     </div>
