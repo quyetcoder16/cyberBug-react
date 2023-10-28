@@ -56,5 +56,7 @@ export function* rootSaga() {
         // comment saga 
 
         CommentSaga.theoDoiGetAllCommentSaga(),
+        CommentSaga.theoDoiDeleteCommentSaga(),
+        CommentSaga.theoDoiAddCommentSaga(),
     ])
 }

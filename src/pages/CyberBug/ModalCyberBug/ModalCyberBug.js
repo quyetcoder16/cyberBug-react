@@ -8,6 +8,8 @@ import { CHANGE_ASSIGNESS, CHANGE_TASK_MODAL, HANDLE_CHANGE_POST_API_SAGA, REMOV
 import { GET_TASK_TYPE_SAGA } from '../../../redux/types/cyberBugConstant/TaskTypeConstants';
 import { Editor } from '@tinymce/tinymce-react';
 import { Select } from 'antd';
+import { ADD_COMMENT_SAGA, DELETE_COMMENT_SAGA } from '../../../redux/types/cyberBugConstant/CommentConstants';
+import { USER_LOGIN } from '../../../util/constants/settingSytem';
 
 export default function ModalCyberBug() {
 
@@ -26,6 +28,10 @@ export default function ModalCyberBug() {
     const [visibleEditor, setVisibleEditor] = useState(false);
     const [historyContent, setHistoryContent] = useState(taskDetailModal.description);
     const [content, setContent] = useState(taskDetailModal.description);
+
+    // comment 
+    const [visibleComment, setVisibleComment] = useState(false);
+    const [contentComment, setContentComment] = useState("");
 
     useEffect(() => {
         dispatch({ type: GET_ALL_STATUS_SAGA, });
@@ -144,19 +150,52 @@ export default function ModalCyberBug() {
 
 
     const renderComment = () => {
+        const userLogin = JSON.parse(localStorage.getItem(USER_LOGIN));
+        // console.log(userLogin);
         return <>
             <div className="block-comment" style={{ display: 'flex' }}>
                 <div className="avatar">
-                    <img src={require('../../../assets/img/download (1).jfif')} alt='' />
+                    <img src={userLogin.avatar} alt='' />
                 </div>
+
                 <div className="input-comment">
-                    <input type="text" placeholder="Add a comment ..." />
-                    <p>
-                        <span style={{ fontWeight: 500, color: 'gray' }}>Protip:</span>
-                        <span>press
-                            <span style={{ fontWeight: 'bold', background: '#ecedf0', color: '#b4bac6' }}>M</span>
-                            to comment</span>
-                    </p>
+                    {(visibleComment) ? <div>
+                        <Editor
+                            name="comment"
+                            init={{
+                                selector: 'textarea#myTextArea',
+                                initialValue: { contentComment },
+                                height: 150,
+                                menubar: false,
+                                plugins: [
+                                    'advlist autolink lists link image charmap print preview anchor',
+                                    'searchreplace visualblocks code fullscreen',
+                                    'insertdatetime media table paste code help wordcount'
+                                ],
+                                toolbar:
+                                    'undo redo | formatselect | bold italic backcolor | \
+                            alignleft aligncenter alignright alignjustify | \
+                            bullist numlist outdent indent | removeformat | help'
+                            }}
+                            onEditorChange={(content, editor) => {
+                                setContentComment(content);
+                            }}
+                        />
+                        <button className='btn btn-primary m-2' onClick={() => {
+                            dispatch({
+                                type: ADD_COMMENT_SAGA,
+                                taskId: taskDetailModal.taskId,
+                                contentComment: contentComment,
+                            });
+                            setVisibleComment(false);
+                        }}>Save</button>
+                        <button className='btn btn-default m-2' onClick={() => {
+                            setContentComment("");
+                            setVisibleComment(false);
+                        }}>Cancel</button>
+                    </div> : <button className='btn btn-light mb-4' onClick={() => {
+                        setVisibleComment(!visibleComment);
+                    }}>add a comment ... </button>}
                 </div>
             </div>
             <div className="lastest-comment">
@@ -177,7 +216,13 @@ export default function ModalCyberBug() {
                                 <div>
                                     <span className='mr-2' style={{ color: '#929398', cursor: "pointer" }}>Edit</span>
                                     •
-                                    <span className='ml-2' style={{ color: '#929398', cursor: "pointer" }}>Delete</span>
+                                    <span className='ml-2' style={{ color: '#929398', cursor: "pointer" }} onClick={() => {
+                                        dispatch({
+                                            type: DELETE_COMMENT_SAGA,
+                                            idComment: comment.id,
+                                            taskId: taskDetailModal.taskId,
+                                        })
+                                    }}>Delete</span>
                                 </div>
                             </div>
                         </div>
