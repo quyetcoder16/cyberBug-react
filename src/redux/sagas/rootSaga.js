@@ -8,6 +8,7 @@ import * as PrioritySaga from './CyberBug/PrioritySaga';
 import * as TaskSaga from './CyberBug/TaskSaga';
 import * as StatusSaga from './CyberBug/StatusSaga';
 import * as CommentSaga from './CyberBug/CommentSaga';
+import * as UserSaga from './CyberBug/UserSaga';
 
 export function* rootSaga() {
     yield all([
@@ -23,6 +24,10 @@ export function* rootSaga() {
         CyberBug.theoDoiAddUserProject(),
         CyberBug.theoDoiRemoveUserFromProject(),
         CyberBug.theoDoiGetUserByProjectIdSaga(),
+
+        // user sign up
+
+        UserSaga.theoDoiUserSignUpSaga(),
 
         ProjectCategorySaga.theoDoiGetAllProjectCategory(),
 
@@ -59,5 +64,7 @@ export function* rootSaga() {
         CommentSaga.theoDoiDeleteCommentSaga(),
         CommentSaga.theoDoiAddCommentSaga(),
         CommentSaga.theoDoiUpdateCommentSaga(),
+
+
     ])
 }

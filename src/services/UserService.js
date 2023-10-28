@@ -23,6 +23,10 @@ export class UserService extends BaseService {
     deleteUSerFromProject = (userProject) => {
         return this.post("Project/removeUserFromProject", userProject);
     }
+
+    UserSignUp = (newUser) => {
+        return this.post("Users/signup", newUser);
+    }
 }
 
 export const userService = new UserService();

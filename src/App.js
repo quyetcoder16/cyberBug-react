@@ -24,6 +24,7 @@ import IndexCyberBug from './pages/CyberBug/IndexCyberBug';
 import CreateProjectCyberBug from './pages/CyberBug/CreateProjectCyberBug/CreateProjectCyberBug';
 import ProjectManagement from './pages/CyberBug/ProjectManagement/ProjectManagement';
 import DrawerCyberBugs from './HOC/cyberBugsHOC/DrawerCyberBug';
+import RegisterCyberBug from './pages/CyberBug/RegisterCyberBug/RegisterCyberBug';
 
 function App() {
 
@@ -52,6 +53,7 @@ function App() {
         <Route exact path='/profile' Component={Profile} />
         <Route exact path='/detail/:id' component={Detail} />
         <UserLoginTemplate exact path='/' Component={LoginCyberBug} />
+        <UserLoginTemplate exact path='/register' Component={RegisterCyberBug} />
         <Route exact path='/ToDoListRFC' component={ToDoListRFC} />
         <Route exact path='/ToDoListRCC' component={ToDoListRCC} />
         <Route exact path='/ToDoListReducer' component={ToDoListReducer} />

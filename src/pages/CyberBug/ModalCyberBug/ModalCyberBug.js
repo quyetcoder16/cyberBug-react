@@ -209,6 +209,7 @@ export default function ModalCyberBug() {
             </div>
             <div className="lastest-comment">
                 {arrComment?.map((comment, index) => {
+                    // console.log(comment.user.userId);
                     const jsxComment = ReactHtmlParser(comment.contentComment);
                     return <div key={index} className="comment-item">
                         <div className="display-comment" style={{ display: 'flex' }}>
@@ -219,7 +220,7 @@ export default function ModalCyberBug() {
                                 <p style={{ marginBottom: 5 }}>
                                     {comment.user.name}
                                 </p>
-                                {(visibleCommentEdit.idComment === comment.id.toString() && visibleCommentEdit.visible) ? <>
+                                {(comment.user.userId === userLogin.id && visibleCommentEdit.idComment === comment.id.toString() && visibleCommentEdit.visible) ? <>
                                     <div>
                                         <Editor
                                             name="comment edit"
