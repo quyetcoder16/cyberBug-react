@@ -25,6 +25,7 @@ import CreateProjectCyberBug from './pages/CyberBug/CreateProjectCyberBug/Create
 import ProjectManagement from './pages/CyberBug/ProjectManagement/ProjectManagement';
 import DrawerCyberBugs from './HOC/cyberBugsHOC/DrawerCyberBug';
 import RegisterCyberBug from './pages/CyberBug/RegisterCyberBug/RegisterCyberBug';
+import UserManagement from './pages/CyberBug/UserManagement.js/UserManagement';
 
 function App() {
 
@@ -62,6 +63,7 @@ function App() {
         <CyberBugTemplate exact path='/cyberBug' Component={IndexCyberBug} />
         <CyberBugTemplate exact path='/createProject' Component={CreateProjectCyberBug} />
         <CyberBugTemplate exact path='/ProjectManagement' Component={ProjectManagement} />
+        <CyberBugTemplate exact path='/UserManagement' Component={UserManagement} />
         <CyberBugTemplate exact path='/projectdetail/:projectId' Component={IndexCyberBug}></CyberBugTemplate>
         <HomeTemplate exact path='*' Component={PageNotDefound} />
       </Switch>

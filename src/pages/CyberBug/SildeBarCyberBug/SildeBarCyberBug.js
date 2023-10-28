@@ -70,7 +70,7 @@ export default function SildeBarCyberBug() {
                         }}
                     />
                 </Header>
-                <Content
+                {/* <Content
                     style={{
                         margin: '24px 16px',
                         padding: 24,
@@ -79,7 +79,7 @@ export default function SildeBarCyberBug() {
                     }}
                 >
                     Content
-                </Content>
+                </Content> */}
             </Layout>
         </Layout>
     )

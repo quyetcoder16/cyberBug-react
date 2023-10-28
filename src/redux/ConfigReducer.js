@@ -18,6 +18,7 @@ import { PriorityReducer } from "./reducer/PriorityReducer";
 import { StatusReducer } from "./reducer/StatusReducer";
 import { TaskReducer } from "./reducer/TaskReducer";
 import { CommentReducer } from "./reducer/CommentReducer";
+import { UserReducer } from "./reducer/UserReducer";
 
 const middleWareSaga = createMiddleWareSaga();
 
@@ -36,6 +37,7 @@ const ConfigReducer = combineReducers({
     StatusReducer,
     TaskReducer,
     CommentReducer,
+    UserReducer,
 });
 
 const store = createStore(ConfigReducer, applyMiddleware(reduxThunk, middleWareSaga));

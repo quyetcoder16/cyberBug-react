@@ -1,5 +1,5 @@
 import { call, put, takeLatest, delay } from "redux-saga/effects";
-import { USER_SIGN_UP_SAGA } from "../../types/cyberBugConstant/UserConstant";
+import { GET_ALL_USER, GET_ALL_USER_SAGA, USER_SIGN_UP_SAGA } from "../../types/cyberBugConstant/UserConstant";
 import { userService } from "../../../services/UserService";
 import { DISPLAY_LOADING, HIDE_LOADING } from "../../types/ToDoListType";
 import { STATUS_CODE } from "../../../util/constants/settingSytem";
@@ -33,4 +33,30 @@ function* userSignUpSaga(action) {
 
 export function* theoDoiUserSignUpSaga() {
     yield takeLatest(USER_SIGN_UP_SAGA, userSignUpSaga);
+}
+
+function* getAllUserSaga(action) {
+    yield put({
+        type: DISPLAY_LOADING,
+    })
+    try {
+        const { data, status } = yield call(() => {
+            return userService.getUser('');
+        });
+        if (status === STATUS_CODE.SUCCESS) {
+            yield put({
+                type: GET_ALL_USER,
+                arrUser: data.content,
+            })
+        }
+    } catch (err) {
+        console.log(err);
+    }
+    yield put({
+        type: HIDE_LOADING,
+    })
+}
+
+export function* theoDoiGetAllUserSaga() {
+    yield takeLatest(GET_ALL_USER_SAGA, getAllUserSaga);
 }

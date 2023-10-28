@@ -391,7 +391,7 @@ export default function ModalCyberBug() {
                                             <div className='row'>
                                                 {
                                                     taskDetailModal.assigness.map((user, index) => {
-                                                        return <div className="col-6  mt-2 mb-2">
+                                                        return <div key={index} className="col-6  mt-2 mb-2">
                                                             <div key={index} style={{ display: 'flex' }} className="item">
                                                                 <div className="avatar">
                                                                     <img src={user.avatar} alt={user.avatar} />

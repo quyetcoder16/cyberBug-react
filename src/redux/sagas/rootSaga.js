@@ -28,6 +28,7 @@ export function* rootSaga() {
         // user sign up
 
         UserSaga.theoDoiUserSignUpSaga(),
+        UserSaga.theoDoiGetAllUserSaga(),
 
         ProjectCategorySaga.theoDoiGetAllProjectCategory(),
 
