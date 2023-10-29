@@ -25,10 +25,14 @@ export function* rootSaga() {
         CyberBug.theoDoiRemoveUserFromProject(),
         CyberBug.theoDoiGetUserByProjectIdSaga(),
 
-        // user sign up
+        // user sign up 
 
         UserSaga.theoDoiUserSignUpSaga(),
+        // user management
         UserSaga.theoDoiGetAllUserSaga(),
+        UserSaga.theoDoiDeleteUserSaga(),
+        UserSaga.theoDoiGetUserByKeyWordSaga(),
+        UserSaga.theoDoiEditUserSaga(),
 
         ProjectCategorySaga.theoDoiGetAllProjectCategory(),
 

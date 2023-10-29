@@ -19,7 +19,7 @@ export class CommentServices extends BaseService {
     }
 
     updateComment = (idComment, contentComment) => {
-        return this.put(`Comment/updateComment?id=${idComment}&contentComment=${contentComment}`, {});
+        return this.put(`Comment/updateComment?id=${idComment}&contentComment=${contentComment}`);
     }
 }
 

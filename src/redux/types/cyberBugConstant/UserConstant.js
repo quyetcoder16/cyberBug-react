@@ -5,3 +5,8 @@ export const USER_SIGN_UP_SAGA = "USER_SIGN_UP_SAGA";
 
 export const GET_ALL_USER = "GET_ALL_USER";
 export const GET_ALL_USER_SAGA = "GET_ALL_USER_SAGA";
+export const GET_USER_BY_KEYWORD = 'GET_USER_BY_KEYWORD';
+export const GET_USER_BY_KEYWORD_SAGA = 'GET_USER_BY_KEYWORD_SAGA';
+export const DELETE_USER_SAGA = 'DELETE_USER_SAGA';
+export const EDIT_USER = "EDIT_USER";
+export const EDIT_USER_SAGA = "EDIT_USER_SAGA";

@@ -80,6 +80,7 @@ const RegisterCyberBugFormmik = withFormik({
         props.dispatch({
             type: USER_SIGN_UP_SAGA,
             newUser: values,
+            typeAction: 'USER_SIGN_UP',
         })
         // console.log(values);
     },

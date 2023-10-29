@@ -1,4 +1,4 @@
-import { GET_ALL_USER } from "../types/cyberBugConstant/UserConstant"
+import { EDIT_USER, GET_ALL_USER, GET_USER_BY_KEYWORD } from "../types/cyberBugConstant/UserConstant"
 
 const initialState = {
     arrUser: [
@@ -23,7 +23,14 @@ const initialState = {
             "email": "busra@gmail.com",
             "phoneNumber": "111111111"
         }
-    ]
+    ],
+    userEdit: {
+        "userId": 2537,
+        "name": "Mehmet129",
+        "avatar": "https://ui-avatars.com/api/?name=Mehmet129",
+        "email": "mehmet@gmail.com",
+        "phoneNumber": "987654321"
+    }
 }
 
 export const UserReducer = (state = initialState, action) => {
@@ -31,6 +38,16 @@ export const UserReducer = (state = initialState, action) => {
 
         case GET_ALL_USER: {
             state.arrUser = action.arrUser;
+            return { ...state };
+        }
+
+        case GET_USER_BY_KEYWORD: {
+            state.arrUser = action.arrUser;
+            return { ...state };
+        }
+
+        case EDIT_USER: {
+            state.userEdit = action.userEdit;
             return { ...state };
         }
 

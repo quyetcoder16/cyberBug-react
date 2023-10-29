@@ -71,6 +71,7 @@ export function* theoDoiAddCommentSaga() {
 function* updateCommentSaga(action) {
 
     try {
+        // console.log(action);
         const { id, contentComment } = action;
         const { data, status } = yield call(() => {
             return commentServices.updateComment(id, contentComment);

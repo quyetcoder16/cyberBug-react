@@ -38,6 +38,15 @@ export const DrawerProjectReducer = (state = initialState, action) => {
             state.callBackSubmit = action.submitFunction;
             return { ...state };
         }
+        case 'SET_SUBMIT_CREATE_USER': {
+            state.callBackSubmit = action.submitFunction;
+            return { ...state };
+        }
+
+        case 'SET_SUBMIT_EDIT_USER': {
+            state.callBackSubmit = action.submitFunction;
+            return { ...state };
+        }
 
         default:
             return state
